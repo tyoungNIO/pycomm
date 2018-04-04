@@ -40,10 +40,10 @@ class Driver(Base):
         if attr != None:
             path.extend([0x30, attr])
         message_request = [
-            bytes([0x10]),  # get attribute single service
+            bytes([0x10]),  # set attribute single service
             bytes([0x03]),  # the Request Path Size length in word
             bytes(path),  # the request path
-            bytes(data),
+            bytes(data),  # data to write, two bytes per word
         ]
         packet = build_common_packet_format(
             DATA_ITEM['Unconnected'],
