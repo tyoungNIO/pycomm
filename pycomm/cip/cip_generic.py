@@ -29,8 +29,11 @@ class Driver(Base):
             logger.warning(self._status)
             raise DataError("send_rr_data failed")
         if self._status[0] == SUCCESS:
-            # TODO: use packet to provide context for raw value(s)
-            return self._reply[-(self._reply[38] - 4):]
+            # Unconnected Data Item Length
+            data_length = unpack_uint(self._reply[38:40])
+            # first 4 bytes indicate service and status
+            reply_length = data_length - 4
+            return self._reply[-reply_length:]
         else:
             return False
 
